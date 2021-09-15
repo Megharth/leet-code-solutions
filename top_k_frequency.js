@@ -37,14 +37,15 @@ var topKFrequent = function(words, k) {
             map[word] = 0;
         ++map[word];
     });
-  
-    const inverseMap = {};
-    Object.entries(map).forEach(([key, val]) => {
-        if(inverseMap[val]) inverseMap[val].add(key);
-        else inverseMap[val] = new Set([key]);
-    })
+
     
-    const ss = Object.entries(inverseMap).sort(([key1, val1], [key2, val2]) => key2 - key1).map(([key, val]) => Array.from(val).sort()).flat().slice(0, k);
+    const ss = Object.keys(map).sort((a, b) => {
+        if(map[a] === map[b])
+            return a > b ? 1 : -1;
+        return map[b] - map[a];
+    });
+    
+    return ss.slice(0, k);
     
     return ss;
 };
